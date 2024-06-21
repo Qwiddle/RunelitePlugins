@@ -3,15 +3,15 @@
 		"name": "",
 		"isDir": true,
 		"placeholders": {
-			"PACKAGE_NAME": "com.runeliteplugins",
-			"PLUGIN_NAME": "AutoPlugin",
-			"PLUGIN_DESCRIPTION": "A plugin built for you!"
+			"PACKAGE_NAME": "com.fofplugins",
+			"PLUGIN_NAME": "",
+			"PLUGIN_DESCRIPTION": ""
 		},
 		"fileTemplates": {
-			"${PLUGIN_NAME}Plugin": "Runelite Plugin",
-			"${PLUGIN_NAME}Overlay": "Runelite Plugin Overlay",
-			"${PLUGIN_NAME}Config": "Runelite Plugin Config",
-			"build.gradle": "Runelite Plugin Build"
+			"${PLUGIN_NAME}Plugin": "RunelitePlugin",
+			"${PLUGIN_NAME}Overlay": "RunelitePlugin Overlay",
+			"${PLUGIN_NAME}Config": "RunelitePlugin Config",
+			"build.gradle": "RunelitePlugin Build"
 		},
 		"realChildren": [
 			{

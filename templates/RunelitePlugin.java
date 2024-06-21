@@ -16,12 +16,13 @@ import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
 import net.runelite.client.ui.overlay.OverlayManager;
 import net.runelite.client.util.HotkeyListener;
+import ${PACKAGE_NAME}.${PLUGIN_NAME}.data.State;
 
 @PluginDescriptor(
         name = "${PLUGIN_NAME}",
         description = "${PLUGIN_DESCRIPTION}",
         enabledByDefault = false,
-        tags = {"eco", "plugin"}
+        tags = {"spin", "plugin"}
 )
 @Slf4j
 public class ${PLUGIN_NAME}Plugin extends Plugin {
@@ -36,10 +37,11 @@ public class ${PLUGIN_NAME}Plugin extends Plugin {
     @Inject
     private OverlayManager overlayManager;
     @Inject
-    
+
     private ClientThread clientThread;
     private boolean started = false;
     public int timeout = 0;
+    public State playerState;
 
     @Provides
     private ${PLUGIN_NAME}Config getConfig(ConfigManager configManager) {
@@ -60,6 +62,7 @@ public class ${PLUGIN_NAME}Plugin extends Plugin {
         timeout = 0;
     }
 
+
     @Subscribe
     private void onGameTick(GameTick event) {
         if (timeout > 0) {
@@ -68,6 +71,32 @@ public class ${PLUGIN_NAME}Plugin extends Plugin {
         }
         if (!EthanApiPlugin.loggedIn() || !started) {
             return;
+        }
+
+        state = getState();
+        handleState();
+    }
+
+    private State getState() {
+        if(client.getLocalPlayer().getAnimation() != -1) {
+            return State.ANIMATING;
+        }
+
+        return State.WAITING;
+    }
+
+    private void handleState() {
+        switch (state) {
+            case ANIMATING:
+                break;
+            case WAITING:
+                break;
+            case BREAK:
+                break;
+            case TIMEOUT:
+                break;
+            default:
+                break;
         }
     }
 
