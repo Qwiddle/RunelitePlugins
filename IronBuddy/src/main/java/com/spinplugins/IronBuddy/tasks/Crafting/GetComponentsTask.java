@@ -26,7 +26,7 @@ public class GetComponentsTask extends AbstractTask<IronBuddyPlugin, IronBuddyCo
     public boolean validate() {
         switch (config.taskType()) {
             case CRAFTING_GLASS_ITEM: {
-                break;
+                return Inventory.getEmptySlots() >= 27;
             }
             case CRAFTING_GLASS:
                 return Inventory.getEmptySlots() >= 14 && (Inventory.getItemAmount(ItemID.BUCKET_OF_SAND) < 14 || Inventory.getItemAmount(config.seaweedType().getId()) < 14);
@@ -37,8 +37,9 @@ public class GetComponentsTask extends AbstractTask<IronBuddyPlugin, IronBuddyCo
 
     @Override
     public void execute() {
-        if(plugin.isSmelting) {
+        if(plugin.isSmelting || plugin.isCrafting) {
             plugin.isSmelting = false;
+            plugin.isCrafting = false;
         }
 
         Optional<Widget> mainContinueOpt = Widgets.search().withTextContains("Click here to continue").first();
@@ -49,23 +50,48 @@ public class GetComponentsTask extends AbstractTask<IronBuddyPlugin, IronBuddyCo
             return;
         }
 
-        if(Bank.isOpen())  {
+        if(Bank.isOpen()) {
             Optional<Widget> bankItem = Optional.empty();
+            int withdrawAmount = 0;
 
-            if(Inventory.getEmptySlots() == 28) {
-                log.info("Withdrawing 14 buckets of sand");
-                bankItem = Bank.search().withId(ItemID.BUCKET_OF_SAND).first();
-            } else if (!Inventory.full() && BankInventory.search().withId(ItemID.BUCKET_OF_SAND).first().isPresent()) {
-                log.info("Withdrawing 14 soda ash");
-                bankItem = Bank.search().withId(ItemID.SODA_ASH).first();
+            switch (config.taskType()) {
+                case CRAFTING_GLASS_ITEM: {
+                    if (Inventory.getEmptySlots() == 28) {
+                        log.info("Withdrawing 1 glass-blowing pipe.");
+
+                        withdrawAmount = 1;
+                        bankItem = Bank.search().withId(ItemID.GLASSBLOWING_PIPE).first();
+                    } else if (BankInventory.search().withId(ItemID.GLASSBLOWING_PIPE).first().isPresent() && Bank.search().withId(ItemID.MOLTEN_GLASS).first().isPresent()) {
+                        log.info("Withdrawing ALL molten glass.");
+
+                        withdrawAmount = 28;
+                        bankItem = Bank.search().withId(ItemID.MOLTEN_GLASS).first();
+                    }
+
+                    break;
+                }
+                case CRAFTING_GLASS: {
+                    withdrawAmount = 14;
+
+                    if (Inventory.getEmptySlots() == 28) {
+                        log.info("Withdrawing 14 buckets of sand");
+                        bankItem = Bank.search().withId(ItemID.BUCKET_OF_SAND).first();
+                    } else if (!Inventory.full() && BankInventory.search().withId(ItemID.BUCKET_OF_SAND).first().isPresent()) {
+                        log.info("Withdrawing 14 soda ash");
+                        bankItem = Bank.search().withId(ItemID.SODA_ASH).first();
+                    }
+                }
             }
 
             if (bankItem.isPresent()) {
-                BankInteraction.withdrawX(bankItem.get(), 14);
+                if (withdrawAmount == 28) {
+                    BankInteraction.useItem(bankItem.get(), "Withdraw-All", "Withdraw-all");
+                } else {
+                    BankInteraction.withdrawX(bankItem.get(), withdrawAmount);
+                }
             } else {
                 log.info("No items found in bank");
             }
-            return;
         }
 
         TileObjects.search().withName("Bank booth").nearestToPlayer().ifPresentOrElse(

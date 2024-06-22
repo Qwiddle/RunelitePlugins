@@ -23,8 +23,8 @@ public class IronBuddyOverlay extends OverlayPanel {
         this.client = client;
         this.plugin = plugin;
         this.config = config;
-        setPosition(OverlayPosition.DYNAMIC);
-        setLayer(OverlayLayer.ABOVE_SCENE);
+        setPosition(OverlayPosition.BOTTOM_LEFT);
+        setLayer(OverlayLayer.ABOVE_WIDGETS);
     }
 
     @Override
