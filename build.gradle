@@ -33,6 +33,9 @@ dependencies {
     implementation project(path: ':ChinBreakHandler')
     implementation project(path: ':PiggyUtils')
     implementation project(path: ':PlankBuddy')
+    implementation project(path: ':SkillBuddy')
+    implementation project(path: ':IronBuddy')
+    implementation project(path: ':RuneUtils')
     implementation 'io.reactivex.rxjava3:rxjava:3.1.6'
 }
 

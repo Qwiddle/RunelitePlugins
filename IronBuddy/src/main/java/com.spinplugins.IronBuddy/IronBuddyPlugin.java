@@ -13,8 +13,10 @@ import com.spinplugins.IronBuddy.tasks.Crafting.ReturnToBankTask;
 import com.spinplugins.IronBuddy.tasks.Dialogue.ExchangePlanksTask;
 import com.spinplugins.IronBuddy.tasks.Dialogue.RemoveLarderTask;
 import com.spinplugins.IronBuddy.tasks.NPC.FindPhialsTask;
+import com.spinplugins.RuneUtils.PathFinding.PathFinder;
 import lombok.Getter;
 import net.runelite.api.*;
+import net.runelite.api.coords.WorldPoint;
 import net.runelite.api.events.GameTick;
 import net.runelite.api.widgets.Widget;
 import net.runelite.client.callback.ClientThread;
@@ -61,6 +63,11 @@ public class IronBuddyPlugin extends Plugin {
 
     private Duration runningDuration = Duration.ZERO;
     private Instant timer = Instant.now();
+
+    @Getter
+    private PathFinder pathFinder = new PathFinder(this, client);
+    @Getter
+    private WorldPoint destination = new WorldPoint(3093, 3248, 0);
 
     public TaskManager taskManager = new TaskManager();
     public List<AbstractTask> tasks = List.of(new BankPinTask(this, config));
@@ -129,12 +136,34 @@ public class IronBuddyPlugin extends Plugin {
                         new ExchangePlanksTask(this, config),
                         new FindPhialsTask(this, config));
             }
+            case CRAFTING_GLASS_ITEM: {
+                return List.of(
+                        new BankPinTask(this, config),
+                        new ReturnToBankTask(this, config),
+                        new MakeGlassItemTask(this, config),
+                        new GetComponentsTask(this, config));
+            }
+            case PATHING_TESTING: {
+                return List.of(
+                        new PathingTestingTask(this, config));
+            }
         }
         return null;
     }
 
     @Subscribe
     private void onGameTick(GameTick event) {
+        if(this.pathFinder.hasFinishedPathing()) {
+            log.info("Pathing has finished");
+            this.destination = null;
+            return;
+        }
+
+        if(this.pathFinder.pathing()) {
+            this.pathFinder.path();
+            return;
+        }
+
         if (!EthanApiPlugin.loggedIn() || !started || EthanApiPlugin.isMoving()) {
             return;
         }
@@ -249,4 +278,5 @@ public class IronBuddyPlugin extends Plugin {
     public void imitateKeyPress(char keyChar) {
         pressKey(keyChar);
     }
+
 }
