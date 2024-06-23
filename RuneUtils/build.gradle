@@ -1,0 +1,40 @@
+plugins {
+    id 'java'
+}
+
+dependencies {
+    compileOnly project(":EthansApi")
+    compileOnly project(":PiggyUtils")
+    implementation 'org.roaringbitmap:RoaringBitmap:0.9.44'
+    implementation("com.google.archivepatcher:archive-patch-applier:1.0.4")
+    implementation("org.benf:cfr:0.152")
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir "src"
+        }
+    }
+}
+
+group 'com.spinplugins'
+version '1.0.0'
+
+test {
+    useJUnitPlatform()
+}
+
+task PluginJar(type: Jar) {
+    manifest {
+    }
+    baseName = 'RuneUtils'
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    from {
+        configurations.runtimeClasspath.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    } with jar
+}
+
+tasks.register("prepareKotlinBuildScriptModel"){}
