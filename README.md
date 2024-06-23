@@ -6,6 +6,20 @@ Without their hard work this wouldn't be possible. Be sure to check out these pr
 
 **Plugins**:
 - ChinBreakHandler (made by Owain - modified to work with runelite)*
+- IronBuddy
+  ```
+  Supports several low-level activities if you're looking to knock out some construction and/or crafting XP.
+
+  - building oak larders and unnoting logs at phials
+  - making molten glass at a furnace from soda ash and buckets of sand
+  - bankstand activities: glassblowing
+  ```
+- RuneUtils
+```
+Very rudimentary pathing system - can be used to walk almost anywhere on the OSRS map without the need of a predetermined path or starting point.
+
+Will grow to ecompass many utilities that open source bot developers can take advantage of.
+```
 
 # Instructions
 Simply drag and drop `plugin-loader` into your `sideloaded-plugins` folder.
