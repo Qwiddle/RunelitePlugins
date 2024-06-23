@@ -8,6 +8,7 @@ import com.spinplugins.IronBuddy.data.Const;
 import com.spinplugins.IronBuddy.tasks.*;
 import com.spinplugins.IronBuddy.tasks.Bank.BankPinTask;
 import com.spinplugins.IronBuddy.tasks.Crafting.GetComponentsTask;
+import com.spinplugins.IronBuddy.tasks.Crafting.MakeGlassItemTask;
 import com.spinplugins.IronBuddy.tasks.Crafting.MakeGlassTask;
 import com.spinplugins.IronBuddy.tasks.Crafting.ReturnToBankTask;
 import com.spinplugins.IronBuddy.tasks.Dialogue.ExchangePlanksTask;
@@ -61,7 +62,7 @@ public class IronBuddyPlugin extends Plugin {
     @Inject
     private ClientThread clientThread;
 
-    private Duration runningDuration = Duration.ZERO;
+    public Duration runningDuration = Duration.ZERO;
     private Instant timer = Instant.now();
 
     @Getter
@@ -79,6 +80,7 @@ public class IronBuddyPlugin extends Plugin {
     private boolean started = false;
     public boolean bankPin = false;
     public boolean isSmelting = false;
+    public boolean isCrafting = false;
 
     @Getter
     private String activeTaskName = "None";
@@ -136,16 +138,16 @@ public class IronBuddyPlugin extends Plugin {
                         new ExchangePlanksTask(this, config),
                         new FindPhialsTask(this, config));
             }
+            case PATHING_TESTING: {
+                return List.of(
+                        new PathingTestingTask(this, config));
+            }
             case CRAFTING_GLASS_ITEM: {
                 return List.of(
                         new BankPinTask(this, config),
                         new ReturnToBankTask(this, config),
                         new MakeGlassItemTask(this, config),
                         new GetComponentsTask(this, config));
-            }
-            case PATHING_TESTING: {
-                return List.of(
-                        new PathingTestingTask(this, config));
             }
         }
         return null;
@@ -175,6 +177,7 @@ public class IronBuddyPlugin extends Plugin {
             idleTicks++;
         } else {
             idleTicks = 0;
+            return;
         }
 
         if (timeout > 0) {

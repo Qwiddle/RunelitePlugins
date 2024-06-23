@@ -20,6 +20,15 @@ public interface TaskInterface {
     void execute();
 
     /**
+     * The name of the task. This method should be called
+     * if you want to display the name of the text in an overlay.
+     *
+     * @return The name of the task
+     */
+    String getTaskName();
+
+
+    /**
      * Interact with a tile object
      * <p>{@link #interact(TileObject, String, boolean)}</p>
      * <p>{@link #interact(TileObject, String, Predicate)}</p>

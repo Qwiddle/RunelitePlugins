@@ -24,7 +24,7 @@ public interface Const {
     enum BuddyTasks {
         CONSTRUCTION_POH,
         CRAFTING_GLASS,
-        CRAFTING_GLASS_ORB, CRAFTING_GLASS_ITEM,
+        CRAFTING_GLASS_ITEM,
     }
 
     enum POHLocation {

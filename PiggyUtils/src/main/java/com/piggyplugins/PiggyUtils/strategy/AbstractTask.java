@@ -1,21 +1,13 @@
 package com.piggyplugins.PiggyUtils.strategy;
 
-import com.example.EthanApiPlugin.Collections.Inventory;
 import com.example.EthanApiPlugin.Collections.NPCs;
 import com.example.EthanApiPlugin.Collections.TileObjects;
-import com.example.EthanApiPlugin.Collections.Widgets;
 import com.example.EthanApiPlugin.Collections.query.NPCQuery;
 import com.example.EthanApiPlugin.Collections.query.TileObjectQuery;
 import com.example.InteractionApi.NPCInteraction;
 import com.example.InteractionApi.TileObjectInteraction;
-import com.example.Packets.MousePackets;
-import com.example.Packets.WidgetPackets;
-import com.google.inject.Inject;
-import net.runelite.api.Client;
-import net.runelite.api.ItemID;
 import net.runelite.api.NPC;
 import net.runelite.api.TileObject;
-import net.runelite.client.callback.ClientThread;
 import net.runelite.client.config.Config;
 import net.runelite.client.plugins.Plugin;
 
@@ -35,6 +27,10 @@ public abstract class AbstractTask<T extends Plugin, V extends Config> implement
     public abstract boolean validate();
 
     public abstract void execute();
+
+    public String getTaskName() {
+        return this.getClass().getSimpleName().replace("Task", "");
+    }
 
     @Override
     public boolean interactObject(TileObject object, String action) {
