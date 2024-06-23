@@ -22,6 +22,7 @@ public interface Const {
     );
 
     enum BuddyTasks {
+        PATHING_TESTING,
         CONSTRUCTION_POH,
         CRAFTING_GLASS,
         CRAFTING_GLASS_ITEM,
