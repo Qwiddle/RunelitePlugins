@@ -4,19 +4,27 @@ Automation plugins for Runelite. Fork of [PiggyPlugins](https://github.com/0Hutc
 
 Without their hard work this wouldn't be possible. Be sure to check out these projects as well.
 
-**Plugins**:
-- ChinBreakHandler (made by Owain - modified to work with runelite)*
-- IronBuddy
-  ```
-  Supports several low-level activities if you're looking to knock out some construction and/or crafting XP.
+## Plugins*:
 
-  - building oak larders and unnoting logs at phials
-  - making molten glass at a furnace from soda ash and buckets of sand
-  - bankstand activities: glassblowing
-  ```
-- RuneUtils
+### ChinBreakHandler
 ```
-Very rudimentary pathing system - can be used to walk almost anywhere on the OSRS map without the need of a predetermined path or starting point.
+Made by Owain and taken from the PiggyPlugins repo to work with runelite.
+
+Automatic break handling - easy to integrate and works really well.
+```
+
+### IronBuddy
+```
+Supports several low-level activities if you're looking to knock out some construction and/or crafting XP.
+
+- building oak larders and unnoting logs at phials
+- making molten glass at a furnace from soda ash and buckets of sand
+- bankstand activities: glassblowing
+```
+### RuneUtils
+```
+Very rudimentary pathing system - can be used to walk almost anywhere on the OSRS map
+without the need of a predetermined path or starting point.
 
 Will grow to ecompass many utilities that open source bot developers can take advantage of.
 ```
