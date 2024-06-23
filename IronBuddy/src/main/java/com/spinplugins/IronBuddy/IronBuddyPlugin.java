@@ -60,7 +60,7 @@ public class IronBuddyPlugin extends Plugin {
     @Inject
     private ClientThread clientThread;
 
-    private Duration runningDuration = Duration.ZERO;
+    public Duration runningDuration = Duration.ZERO;
     private Instant timer = Instant.now();
 
     public TaskManager taskManager = new TaskManager();
